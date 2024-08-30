@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2698624646050925057}
   m_Layer: 0
   m_Name: EnemyBokoblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
