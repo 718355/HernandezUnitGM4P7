@@ -22,7 +22,7 @@ public class RocketBehavior : MonoBehaviour
             transform.LookAt(target);
         }
     }
-    public void fire (Transform newTarget)
+    public void Fire (Transform newTarget)
     {
         target = newTarget;
         homing = true;
@@ -39,6 +39,7 @@ public class RocketBehavior : MonoBehaviour
                 targetRigidbody.AddForce(away * rocketStrength, ForceMode.Impulse);
                 Destroy(gameObject);
             }
+            
         }
     }
 }
