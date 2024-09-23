@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
+    public float hangTime;
+    public float smashSpeed;
+    public float explosionForce;
+    public float explosionRadius;
+
+    bool samshing = false;
+    float floorY;
+
     private Rigidbody playerRb;
     private float speed = 500;
     private GameObject focalPoint;
@@ -50,6 +58,21 @@ public class PlayerControllerX : MonoBehaviour
         yield return new WaitForSeconds(powerUpDuration);
         hasPowerup = false;
         powerupIndicator.SetActive(false);
+    }
+    IEnumerator Smash()
+    {
+        var enemies = FindObjectsOfType<Enemy>();
+
+        //Store the y position before taking off
+        floorY = transform.position.y;
+
+        float jumpTime = Time.time + hangTime;
+
+        while (Time.time < jumpTime)
+        {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, smashSpeed);
+            yield return null;
+        }
     }
 
     // If Player collides with enemy
