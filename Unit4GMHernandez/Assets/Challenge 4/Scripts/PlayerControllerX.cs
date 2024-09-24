@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
+    public PowerUpType currentPowerUp = PowerUpType.None;
+    public GameObject rocketPrefab;
+    public GameObject tmpRocket;
+    public Coroutine powerupCountdown;
+
     public float hangTime;
     public float smashSpeed;
     public float explosionForce;
     public float explosionRadius;
 
-    bool samshing = false;
+    bool smashing = false;
     float floorY;
 
     private Rigidbody playerRb;
@@ -37,6 +42,17 @@ public class PlayerControllerX : MonoBehaviour
 
         // Set powerup indicator position to beneath player
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+        
+        if(currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F))
+        {
+            LaunchRockets();
+        }
+
+        if (currentPowerUp == PowerUpType.Smash && Input.GetKeyDown(KeyCode.Space))
+        {
+            smashing = true;
+            StartCoroutine(Smash());
+        }
 
     }
 
@@ -68,11 +84,25 @@ public class PlayerControllerX : MonoBehaviour
 
         float jumpTime = Time.time + hangTime;
 
-        while (Time.time < jumpTime)
+        while(Time.time < jumpTime)
         {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, smashSpeed);
+            playerRb.velocity = new Vector2(playerRb.velocity.x, -smashSpeed);
             yield return null;
         }
+
+        while(transform.position.y > floorY)
+        {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, -smashSpeed * 2);
+            yield return null;
+        }
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i]  = null) enemies[i].GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
+        }
+
+
+        smashing = false;
     }
 
     // If Player collides with enemy
