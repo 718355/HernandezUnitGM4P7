@@ -37,18 +37,18 @@ public class PlayerControllerX : MonoBehaviour
     void Update()
     {
         // Add force to player in direction of the focal point (and camera)
-        float verticalInput = Input.GetAxis("Vertical");
-        playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed * Time.deltaTime); 
+        float forwardInput = Input.GetAxis("Vertical");
+        playerRb.AddForce(focalPoint.transform.forward * forwardInput * speed); 
 
         // Set powerup indicator position to beneath player
-        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
         
         if(currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F))
         {
             LaunchRockets();
         }
 
-        if (currentPowerUp == PowerUpType.Smash && Input.GetKeyDown(KeyCode.Space))
+        if (currentPowerUp == PowerUpType.Smash && Input.GetKeyDown(KeyCode.Space) && !smashing)
         {
             smashing = true;
             StartCoroutine(Smash());
